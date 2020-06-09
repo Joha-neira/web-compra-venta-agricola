@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="container p-4">
+    <form>
+        <div class="form-group">
+            <label for="nombre usuario">Nombre De Usuario</label>
+            <input type="text" class="form-control" id="nombre-usuario" aria-describedby="emailHelp"
+                placeholder="Ingrese Su Nombre De Usuario">
+        </div>
+    </form>
+    <form>
+        <div class="form-group">
+            <label for="contraseña">contraseña</label>
+            <input type="password" class="form-control" id="nombre-usuario" aria-describedby="emailHelp"
+                placeholder="Ingrese Su Contraseña">
+        </div>
+    </form>    
+    <br>
+    <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
+    
+
+</div>
+
+{% endblock %}

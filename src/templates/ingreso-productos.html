@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container p-4">
+    <form>
+        <div class="form-group">
+            <label for="codigo producto">Codigo</label>
+            <input type="text" class="form-control" id="codigo-producto" aria-describedby="emailHelp"
+                placeholder="Codigo Del producto">
+        </div>      
+        <div class="form-group">
+            <label for="categoria">Categoria</label> &nbsp; &nbsp;&nbsp;&nbsp;
+            <select name="categoria">
+
+                <option>Frutas</option>
+                
+                <option>Verduras</option>
+
+                <option>Lacteos</option>
+                
+                
+                </select>
+        </div>  
+        <div class="form-group">
+            <label for="nombre producto">Nombre</label>
+            <input type="text" class="form-control" id="nombre-producto" aria-describedby="emailHelp"
+                placeholder="Nombre Del Producto">
+        </div>
+        <div class="form-group">
+            <label for="cantidad">Cantidad</label>
+            <input type="number" class="form-control" id="cantidad" aria-describedby="emailHelp"
+                placeholder="Cantidad Producto">
+        </div>
+        <div class="form-group">
+            <label for="precio">Precio</label>
+            <input type="number" class="form-control" id="precio" aria-describedby="emailHelp"
+                placeholder="Precio Producto">
+        </div>
+        <div class="form-group">
+            <label for="imagen producto">Imagen Referencial Producto</label>
+            <input type="file" class="form-control" id="imagen-producto" aria-describedby="emailHelp"
+                placeholder="Imagen">
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Acepto los términos</label>
+            <small id="emailHelp" class="form-text text-muted">Nunca compartiremos tu información personal con terceros.</small>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Ingresar Producto</button>
+
+    </form>
+
+
+</div>
+
+
+
+
+
+{% endblock %}
