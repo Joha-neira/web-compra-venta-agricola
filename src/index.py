@@ -7,10 +7,19 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-#inicio de sesion
+#ruta inicio de sesion
 @app.route('/inicio-sesion')
 def iniciosesion():
     return render_template('/inicio-sesion.html')
+
+#ruta perfil de usuario
+@app.route('/perfil-usuario')
+def perfilUsuario():
+    return render_template('/perfil-usuario.html')
+
+@app.route('/productos')
+def productos():
+    return render_template('/productos.html')
 
 #ruta del registro de cliente
 @app.route('/registro-cliente')
