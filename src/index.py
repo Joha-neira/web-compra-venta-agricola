@@ -46,5 +46,21 @@ def favoritos():
 def compras():
     return render_template('compras.html')
 
+#ruta de carrito
+@app.route('/carrito')
+def carrito():
+    return render_template('carrito.html')    
+
+#ruta de contactos
+@app.route('/contactos')
+def contactos():
+    return render_template('contactos.html')   
+
+#ruta de valoraciones
+@app.route('/valoraciones')
+def valoraciones():
+    return render_template('valoraciones.html')       
+
+
 if __name__ == "__main__":
     app.run(debug=True)
