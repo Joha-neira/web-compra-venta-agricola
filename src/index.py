@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-
+from flask import Flask, render_template, request
+from conexionbd import getConn, cx_Oracle
 app = Flask(__name__)
 
 #ruta del home
@@ -25,6 +25,23 @@ def productos():
 @app.route('/registro-cliente')
 def registroCliente():
     return render_template('registro-cliente.html')
+
+#ruta del agregar cliente
+@app.route('/agregar-cliente', methods=['POST'])
+def addCliente():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        apellidos  = request.form['apellidos']
+        email  = request.form['email']
+        contrasena = request.form['contrasena']
+        conn=getConn()
+        crs = conn.cursor()
+        sql = """INSERT INTO usuario (correo,password,nombre,apellido)
+                VALUES (:correo,:password,:nombre,:apellido)"""
+        crs.execute(sql,[email,contrasena,nombre,apellidos])
+        conn.commit()
+        conn.close()
+    return 'received'
 
 #ruta del registro de productor
 @app.route('/registro-productor')
