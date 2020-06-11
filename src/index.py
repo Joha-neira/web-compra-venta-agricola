@@ -36,5 +36,15 @@ def registroProductor():
 def ingresoProductos():
     return render_template('ingreso-productos.html')    
 
+#ruta de favoritos
+@app.route('/favoritos')
+def favoritos():
+    return render_template('favoritos.html')
+
+#ruta de compras
+@app.route('/compras')
+def compras():
+    return render_template('compras.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
