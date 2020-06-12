@@ -2,9 +2,12 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from conexionbd import getConn, cx_Oracle
 app = Flask(__name__)
 
+
 #inicializar sesión
 app.secret_key = 'mysecretkey'
+
 #inicializar user
+global user
 user = []
 
 #ruta del home
@@ -27,17 +30,27 @@ correo_usuario : str
 def perfilUsuario():
     if request.method == 'POST':
         correo=request.form['correo']
-        global correo_usuario
-        correo_usuario = correo
+        passw=request.form['password']
         conn=getConn()
         crs = conn.cursor()
-        sql = """select * from usuario where correo=:correo"""
+        sql = """select correo, password, nvl(username,' '), nombre, apellido, nvl(rutusuario,' '), nvl(telefono1,' '), nvl(telefono2,' '), nvl(domicilio,' ') from usuario where correo=:correo"""
         crs.execute(sql,[correo])
+        global user
         user=crs.fetchall()
-        return render_template('/perfil-usuario.html', user=user)
-    else: 
-        return render_template('/perfil-usuario.html', correo_usuario)
-    
+        if correo == "" or passw == "" :
+            user = []
+            return render_template('/inicio-sesion.html')
+        else:
+            if correo == user[0][0] and passw == user[0][1]:
+                return render_template('/perfil-usuario.html', user=user)
+            else:
+                user= []
+                return render_template('/inicio-sesion.html')
+    if request.method == 'GET':
+        if len(user)==0:
+            return render_template('/inicio-sesion.html')
+        else:
+            return render_template('/perfil-usuario.html', user=user)
 
 #ruta vista lista de productos
 @app.route('/productos')
