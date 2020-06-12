@@ -4,22 +4,20 @@
 
 
 <div class="container p-4">
-    <form>
+    <form action="/perfil-usuario" method="POST">
         <div class="form-group">
-            <label for="nombre usuario">Nombre De Usuario</label>
-            <input type="text" class="form-control" id="nombre-usuario" aria-describedby="emailHelp"
-                placeholder="Ingrese Su Nombre De Usuario">
+            <label for="correo">Correo</label>
+            <input type="text" name="correo" class="form-control" id="correo" aria-describedby="emailHelp"
+                placeholder="Ingrese Su Correo">
         </div>
-    </form>
-    <form>
-        <div class="form-group">
+         <div class="form-group">
             <label for="contraseña">Contraseña</label>
             <input type="password" class="form-control" id="nombre-usuario" aria-describedby="emailHelp"
                 placeholder="Ingrese Su Contraseña">
         </div>
+        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
     </form>    
     <br>
-    <a class="btn btn-primary" href="/perfil-usuario" role="button">Iniciar Sesión</a>
     
     
 
