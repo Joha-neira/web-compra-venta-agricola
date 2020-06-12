@@ -24,7 +24,6 @@ def home():
 def iniciosesion():
     return render_template('/inicio-sesion.html')
 
-correo_usuario : str
 #ruta perfil de usuario
 @app.route('/perfil-usuario', methods=['GET','POST'])
 def perfilUsuario():
@@ -134,9 +133,8 @@ def compras():
 def carrito():
     conn=getConn()
     crs = conn.cursor()
-    global correo_usuario
     sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad) from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
-    crs.execute(sql,[correo_usuario])
+    crs.execute(sql,[user[0][0]])
     data = crs.fetchall()
     totalCarrito=0
     for producto in data:
@@ -145,7 +143,7 @@ def carrito():
     return render_template('carrito.html',productos = data, totalCarrito = totalCarrito) 
 
 #ruta agregar al carrito
-@app.route('/agregar-carrito/<id><cant>')   
+@app.route('/agregar-carrito/<id>/<cant>')   
 def agregarCarrito(id,cant):
     # conn=getConn()
     # crs= conn.cursor()
@@ -154,8 +152,7 @@ def agregarCarrito(id,cant):
     # data = crs.fetchall()
     cantidad = cant
     idproducto = id
-    global correo_usuario
-    correo = correo_usuario
+    correo = user[0][0]
     print(cantidad, idproducto, correo)
     conn=getConn()
     crs = conn.cursor()
@@ -164,10 +161,13 @@ def agregarCarrito(id,cant):
     crs.execute(sql,[cantidad,idproducto,correo])
     conn.commit()
     sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad) from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
-    crs.execute(sql,[correo_usuario])
+    crs.execute(sql,[correo])
     data = crs.fetchall()
+    totalCarrito=0
+    for producto in data:
+        totalCarrito += producto[3]
     conn.close()
-    return render_template('carrito.html',productos = data)
+    return render_template('carrito.html',productos = data, totalCarrito = totalCarrito)
 
 #ruta de contactos
 @app.route('/contactos')
