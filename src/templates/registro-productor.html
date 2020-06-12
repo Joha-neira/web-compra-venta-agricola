@@ -1,44 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container p-4">
-    <form action="/agregar-productor" method="POST">
+    <form>
         <div class="form-group">
             <label for="nombre">Nombre</label>
-            <input type="text" name="nombre"  class="form-control" id="nombre" aria-describedby="emailHelp"
+            <input type="text" class="form-control" id="nombre" aria-describedby="emailHelp"
                 placeholder="Nombre del representante de la empresa">
         </div>
         <div class="form-group">
             <label for="apellidos">Apellidos</label>
-            <input type="text" name="apellidos" class="form-control" id="apellidos" aria-describedby="emailHelp"
+            <input type="text" class="form-control" id="apellidos" aria-describedby="emailHelp"
                 placeholder="Apellidos del representante">
         </div>
         <div class="form-group">
             <label for="nombre-empresa">Nombre Empresa</label>
-            <input type="text" name="nombreEmpresa" class="form-control" id="nombre-empresa" aria-describedby="emailHelp"
+            <input type="text" class="form-control" id="nombre-empresa" aria-describedby="emailHelp"
                 placeholder="Nombre de contacto de la Empresa">
         </div>
         <div class="form-group">
             <label for="razon-social">Razón social</label>
-            <input type="text" name="razonSocial" class="form-control" id="razon-social" aria-describedby="emailHelp"
+            <input type="text" class="form-control" id="razon-social" aria-describedby="emailHelp"
                 placeholder="Razón social de la empresa">
         </div>
         <div class="form-group">
-            <label for="direccion">Dirección</label>
-            <input type="text" name="direccion" class="form-control" id="direccion" aria-describedby="emailHelp"
+            <label for="nombre-empresa">Dirección</label>
+            <input type="text" class="form-control" id="nombre-empresa" aria-describedby="emailHelp"
                 placeholder="Calle Perico los palotes #1234, Torre 4 piso 3 depto. 101">
         </div>
         <div class="form-group">
             <label for="correo">Correo electrónico</label>
-            <input type="email" name="email" class="form-control" id="correo" aria-describedby="emailHelp"
+            <input type="email" class="form-control" id="correo" aria-describedby="emailHelp"
                 placeholder="Ingrese su correo">
         </div>
         <div class="form-group">
             <label for="password">Contraseña</label>
-            <input type="password" name="contrasena" class="form-control" id="password" placeholder="Contraseña">
+            <input type="password" class="form-control" id="password" placeholder="Contraseña">
         </div>
         <div class="form-group">
             <label for="password2">Repita contraseña</label>
-            <input type="password" name="contrasena2" class="form-control" id="password2" placeholder="Confirmación de contraseña">
+            <input type="password" class="form-control" id="password2" placeholder="Confirmación de contraseña">
         </div>
         <div class="form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">

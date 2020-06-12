@@ -33,16 +33,44 @@
             <br><br>
             <h2>Datos de cuenta</h2>
             <div class=""> 
-                Usuario:   <br>
+                Usuario: 
+                {%  if user[0][2] == " " %}
+                        <input type="usuario" class="form-control" id="usuario" aria-describedby="emailHelp" 
+                        placeholder="Ingrese Su Usuario" value=""> 
+                {%  else  %}
+                        <input type="usuario" class="form-control" id="usuario" aria-describedby="emailHelp" 
+                        placeholder="Ingrese Su Usuario" value="{{ user[0][2] }}"> 
+                {%  endif  %}
                 Correo: {{ user[0][0] }}
             </div>
             <br><br>
             <h2>Datos personales</h2>
             <div class="">
                 Nombre y apellido : {{ user[0][3] }} {{ user[0][4] }}<br>
-                RUT:   <br>
-                Teléfono:  <br>
-                Teléfono alternativo  <br>
+                RUT:  
+                {%  if user[0][5] == " " %}
+                        <input type="rut" class="form-control" id="rut" aria-describedby="emailHelp" 
+                        placeholder="Ingrese Su Rut" value=""> 
+                {%  else  %}
+                        <input type="rut" class="form-control" id="rut" aria-describedby="emailHelp" 
+                        placeholder="Ingrese Su Rut" value="{{ user[0][5] }}"> 
+                {%  endif  %}
+                Teléfono:  
+                {%  if user[0][6] == " " %}
+                        <input type="telefono" class="form-control" id="telefono" aria-describedby="emailHelp" 
+                        placeholder="Ingrese Su Telefono" value=""> 
+                {%  else  %}
+                        <input type="telefono" class="form-control" id="telefono" aria-describedby="emailHelp" 
+                        placeholder="Ingrese Su Telefono" value="{{ user[0][6] }}"> 
+                {%  endif  %}
+                Teléfono alternativo:
+                {%  if user[0][6] == " " %}
+                        <input type="telefono2" class="form-control" id="telefono2" aria-describedby="emailHelp" 
+                        placeholder="Ingrese Su Telefono" value=""> 
+                {%  else  %}
+                        <input type="telefono2" class="form-control" id="telefono2" aria-describedby="emailHelp" 
+                        placeholder="Ingrese Su Telefono" value="{{ user[0][7] }}"> 
+                {%  endif  %}
             </div>
             <br><br>
             <h2>Domicilios</h2>
