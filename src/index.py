@@ -1,14 +1,24 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
 from conexionbd import getConn, cx_Oracle
 app = Flask(__name__)
 
+
+#inicializar sesión
+app.secret_key = 'mysecretkey'
+
+#inicializar user
 global user
 user = []
 
 #ruta del home
 @app.route('/')
 def home():
-    return render_template('index.html')
+    conn=getConn()
+    crs= conn.cursor()
+    sql = "SELECT * FROM producto"
+    crs.execute(sql)
+    data = crs.fetchall()
+    return render_template('/index.html', productos = data)
 
 #ruta inicio de sesion
 @app.route('/inicio-sesion')
@@ -76,9 +86,15 @@ def perfilUsuario():
         else:
             return render_template('/perfil-usuario.html', user=user)
 
+#ruta vista lista de productos
 @app.route('/productos')
 def productos():
-    return render_template('/productos.html')
+    conn=getConn()
+    crs= conn.cursor()
+    sql = "SELECT * FROM producto"
+    crs.execute(sql)
+    data = crs.fetchall()
+    return render_template('/productos.html', productos = data)
 
 #ruta del registro de cliente
 @app.route('/registro-cliente')
@@ -111,6 +127,30 @@ def registroProductor():
 @app.route('/ingreso-productos')
 def ingresoProductos():
     return render_template('ingreso-productos.html')    
+
+#ruta para agregar producto
+@app.route('/agregar-producto',methods=['POST'])
+def addProducto():
+    if request.method == 'POST':
+        idProducto = request.form['idProducto']
+        nombreProducto  = request.form['nombreProducto']
+        cantidad = request.form['cantidad']
+        precio = request.form['precio']
+        categoria = request.form['categoria']
+        conn=getConn()
+        crs = conn.cursor()
+        sql = """INSERT INTO producto (idProducto,nombreProducto,cantidad,precio,categoria)
+                VALUES (:idProducto,:nombreProducto,:cantidad,:precio,:categoria)"""
+        crs.execute(sql,[idProducto,nombreProducto,cantidad,precio,str(categoria)])
+        conn.commit()
+        conn.close()
+        flash('Producto agregado satisfactoriamente')
+    return redirect(url_for('productos'))
+
+#ruta para eliminar producto
+@app.route('/eliminar-producto/<string:id>')
+def eliminarProducto(id):
+    return
 
 #ruta de favoritos
 @app.route('/favoritos')
