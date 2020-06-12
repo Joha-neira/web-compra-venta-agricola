@@ -1,7 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from conexionbd import getConn, cx_Oracle
 
 app = Flask(__name__)
+
+#inicializar sesión
+app.secret_key = 'mysecretkey'
 
 #ruta del home
 @app.route('/')
@@ -18,9 +21,15 @@ def iniciosesion():
 def perfilUsuario():
     return render_template('/perfil-usuario.html')
 
+#ruta vista lista de productos
 @app.route('/productos')
 def productos():
-    return render_template('/productos.html')
+    conn=getConn()
+    crs= conn.cursor()
+    sql = "SELECT * FROM producto"
+    crs.execute(sql)
+    data = crs.fetchall()
+    return render_template('/productos.html', productos = data)
 
 #ruta del registro de cliente
 @app.route('/registro-cliente')
@@ -90,7 +99,13 @@ def addProducto():
         crs.execute(sql,[idProducto,nombreProducto,cantidad,precio,str(categoria)])
         conn.commit()
         conn.close()
-    return 'received'
+        flash('Producto agregado satisfactoriamente')
+    return redirect(url_for('productos'))
+
+#ruta para eliminar producto
+@app.route('/eliminar-producto/<string:id>')
+def eliminarProducto(id):
+    return
 
 
 #ruta de favoritos
