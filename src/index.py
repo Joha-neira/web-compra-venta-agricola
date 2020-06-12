@@ -4,28 +4,39 @@ app = Flask(__name__)
 
 #inicializar sesión
 app.secret_key = 'mysecretkey'
+#inicializar user
+user = []
 
 #ruta del home
 @app.route('/')
 def home():
-    return render_template('index.html')
-
+    conn=getConn()
+    crs= conn.cursor()
+    sql = "SELECT * FROM producto"
+    crs.execute(sql)
+    data = crs.fetchall()
+    return render_template('/index.html', productos = data)
 #ruta inicio de sesion
 @app.route('/inicio-sesion')
 def iniciosesion():
     return render_template('/inicio-sesion.html')
 
+correo_usuario : str
 #ruta perfil de usuario
 @app.route('/perfil-usuario', methods=['GET','POST'])
 def perfilUsuario():
     if request.method == 'POST':
         correo=request.form['correo']
+        global correo_usuario
+        correo_usuario = correo
         conn=getConn()
         crs = conn.cursor()
         sql = """select * from usuario where correo=:correo"""
         crs.execute(sql,[correo])
         user=crs.fetchall()
         return render_template('/perfil-usuario.html', user=user)
+    else: 
+        return render_template('/perfil-usuario.html', correo_usuario)
     
 
 #ruta vista lista de productos
@@ -104,6 +115,56 @@ def favoritos():
 @app.route('/compras')
 def compras():
     return render_template('compras.html')
+
+#ruta de carrito
+@app.route('/carrito')
+def carrito():
+    conn=getConn()
+    crs = conn.cursor()
+    global correo_usuario
+    sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad) from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
+    crs.execute(sql,[correo_usuario])
+    data = crs.fetchall()
+    totalCarrito=0
+    for producto in data:
+        totalCarrito += producto[3]
+    conn.close()
+    return render_template('carrito.html',productos = data, totalCarrito = totalCarrito) 
+
+#ruta agregar al carrito
+@app.route('/agregar-carrito/<id><cant>')   
+def agregarCarrito(id,cant):
+    # conn=getConn()
+    # crs= conn.cursor()
+    # sql = """select * from producto where idproducto = :id"""
+    # crs.execute(sql,[id])
+    # data = crs.fetchall()
+    cantidad = cant
+    idproducto = id
+    global correo_usuario
+    correo = correo_usuario
+    print(cantidad, idproducto, correo)
+    conn=getConn()
+    crs = conn.cursor()
+    sql = """INSERT INTO carrito (cantidad, idproducto, correo)
+            VALUES (:cantidad,:idproducto,:correo)"""
+    crs.execute(sql,[cantidad,idproducto,correo])
+    conn.commit()
+    sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad) from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
+    crs.execute(sql,[correo_usuario])
+    data = crs.fetchall()
+    conn.close()
+    return render_template('carrito.html',productos = data)
+
+#ruta de contactos
+@app.route('/contactos')
+def contactos():
+    return render_template('contactos.html')   
+
+#ruta de valoraciones
+@app.route('/valoraciones')
+def valoraciones():
+    return render_template('valoraciones.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

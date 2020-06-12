@@ -13,5 +13,29 @@
             <a class="btn btn-primary btn-lg" href="#" role="button">Ver más...</a>
         </p>
     </div>
+    <br>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Categoría</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <th scope="row">{{producto.1}}</th>
+                <td>{{producto.2}}</td>
+                <td>{{producto.3}}</td>
+                <td>{{producto.4}}</td>
+                <td> 
+                    <a class="btn btn-success" href="/agregar-carrito/{{producto.0}}{{producto.2}}">+ Agregar al carrito</a>
+                </td>
+              </tr>
+            {% endfor %}
+        </tbody>
+      </table>
 </div>
 {% endblock %}
