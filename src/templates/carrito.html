@@ -1,0 +1,24 @@
+{% extends "base-usuario.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Su Carrito</h1>
+    <br><br>
+    <h2>Sus Pedidos</h2>
+    <div class=""> 
+        Productor:   <br>
+        Cantidad:   <br>
+        Categoria:  <br>
+        Total A Pagar:  <br><br>
+        <label for="codigo descuento">Codigo De Descuento:</label>
+        <input type="text" class="form-control" id="codigo" aria-describedby="emailHelp"
+        placeholder="Ingrese Su Codigo De Descuento"> <br>
+        <button type="submit" class="btn btn-primary">Aplicar Descuento</button>
+        <br><br><br>
+        
+        <button type="submit" class="btn btn-primary">Finalizar La Compra</button> &nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="submit" class="btn btn-primary">Cancelar Pedido</button>
+    </div>
+
+{% endblock %}
