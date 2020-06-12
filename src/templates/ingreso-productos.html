@@ -3,10 +3,10 @@
 {% block content %}
 
 <div class="container p-4">
-    <form>
+    <form action="/agregar-producto" method="POST">
         <div class="form-group">
             <label for="codigo producto">Codigo</label>
-            <input type="text" class="form-control" id="codigo-producto" aria-describedby="emailHelp"
+            <input type="text" name="idProducto" class="form-control" id="codigo-producto" aria-describedby="emailHelp"
                 placeholder="Codigo Del producto">
         </div>      
         <div class="form-group">
@@ -24,22 +24,22 @@
         </div>  
         <div class="form-group">
             <label for="nombre producto">Nombre</label>
-            <input type="text" class="form-control" id="nombre-producto" aria-describedby="emailHelp"
+            <input type="text" name="nombreProducto" class="form-control" id="nombre-producto" aria-describedby="emailHelp"
                 placeholder="Nombre Del Producto">
         </div>
         <div class="form-group">
             <label for="cantidad">Cantidad</label>
-            <input type="number" class="form-control" id="cantidad" aria-describedby="emailHelp"
+            <input type="number" name="cantidad" class="form-control" id="cantidad" aria-describedby="emailHelp"
                 placeholder="Cantidad Producto">
         </div>
         <div class="form-group">
             <label for="precio">Precio</label>
-            <input type="number" class="form-control" id="precio" aria-describedby="emailHelp"
+            <input type="number" name="precio" class="form-control" id="precio" aria-describedby="emailHelp"
                 placeholder="Precio Producto">
         </div>
         <div class="form-group">
             <label for="imagen producto">Imagen Referencial Producto</label>
-            <input type="file" class="form-control" id="imagen-producto" aria-describedby="emailHelp"
+            <input type="file" name="imagen" class="form-control" id="imagen-producto" aria-describedby="emailHelp"
                 placeholder="Imagen">
         </div>
         <div class="form-check">

@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from conexionbd import getConn, cx_Oracle
+
 app = Flask(__name__)
 
 #ruta del home
@@ -48,10 +49,49 @@ def addCliente():
 def registroProductor():
     return render_template('registro-productor.html')
 
+#ruta del agregar productor
+@app.route('/agregar-productor', methods=['POST'])
+def addProductor():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        apellidos  = request.form['apellidos']
+        nombreEmpresa = request.form['nombreEmpresa']
+        razonSocial = request.form['razonSocial']
+        direccion = request.form['direccion']
+        email  = request.form['email']
+        contrasena = request.form['contrasena']
+        conn=getConn()
+        crs = conn.cursor()
+        sql = """INSERT INTO productor (correo,pass,nombre,apellido,nombreempresa,razonsocial,direccion)
+                VALUES (:correo,:password,:nombre,:apellido,:nombreempresa,:razonsocial,:direccion)"""
+        crs.execute(sql,[email,contrasena,nombre,apellidos,nombreEmpresa,razonSocial,direccion])
+        conn.commit()
+        conn.close()
+    return 'received'
+
 #ruta del ingreso de productos
 @app.route('/ingreso-productos')
 def ingresoProductos():
     return render_template('ingreso-productos.html')    
+
+#ruta para agregar producto
+@app.route('/agregar-producto',methods=['POST'])
+def addProducto():
+    if request.method == 'POST':
+        idProducto = request.form['idProducto']
+        nombreProducto  = request.form['nombreProducto']
+        cantidad = request.form['cantidad']
+        precio = request.form['precio']
+        categoria = request.form['categoria']
+        conn=getConn()
+        crs = conn.cursor()
+        sql = """INSERT INTO producto (idProducto,nombreProducto,cantidad,precio,categoria)
+                VALUES (:idProducto,:nombreProducto,:cantidad,:precio,:categoria)"""
+        crs.execute(sql,[idProducto,nombreProducto,cantidad,precio,str(categoria)])
+        conn.commit()
+        conn.close()
+    return 'received'
+
 
 #ruta de favoritos
 @app.route('/favoritos')
