@@ -16,30 +16,30 @@
                     Correo: {{ user[0][0] }}
                 </div>
                 <br><br>
-                <h2>Datos personales</h2>
+                <h2>Datos representante legal</h2>
                 <div class="">
                     Nombre y apellido : {{ user[0][3] }} {{ user[0][4] }}<br>
-                    RUT: {{ user[0][5] }}<br>
-                    Teléfono: {{ user[0][6] }}<br>
-                    Teléfono alternativo: {{ user[0][7] }}<br>
                 </div>
                 <h2>Datos empresa</h2>
                 <div class="">
-                    Nombre empresa : {{ user[0][3] }} {{ user[0][4] }}<br>
-                    RUT: {{ user[0][5] }}<br>
-                    Razón social: {{ user[0][5] }}<br>
-                    Teléfono: {{ user[0][6] }}<br>
-                    Teléfono alternativo: {{ user[0][7] }}<br>
+                    Nombre empresa : {{ user[0][5] }}<br>
+                    RUT: {{ user[0][7] }}<br>
+                    Razón social: {{ user[0][6] }}<br>
+                    Teléfono: {{ user[0][8] }}<br>
+                    Teléfono alternativo: {{ user[0][10] }}<br>
                 </div>
                 <br><br>
                 <h2>Domicilio</h2>
                 <div class="">
-                    Domicilio:  {{ user[0][8] }}<br>
+                    Domicilio:  {{ user[0][11] }}<br>
                 </div>
                 <br>
-                <a class="btn btn-primary" href="/editar-productor" role="button">Editar Datos Usuario</a>
+                <a class="btn btn-primary" href="/editar-productor" role="button">Editar Datos Productor</a>
                 <br>
                 <br>
             </form>
         </div>
     </div>
+</div>
+
+{% endblock %}

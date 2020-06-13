@@ -1,0 +1,117 @@
+{% extends "base-usuario.html" %}
+
+{% block content %}
+<div class="d-flex" id="wrapper">
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <div class="container-fluid">
+            <form action="/perfil-productor-editado" method="POST">
+                <h1 class="mt-4">Mis datos</h1>
+                <br><br>
+                <h2>Datos de cuenta</h2>
+                <div class="">
+                    Usuario: 
+                    {%  if user[0][2] == " " %}
+                            <input type="usuario" name='username' class="form-control" id="usuario" aria-describedby="emailHelp" 
+                            placeholder="Ingrese Su Usuario" value=""> 
+                    {%  else  %}
+                            <input type="usuario" name='username' class="form-control" id="usuario" aria-describedby="emailHelp" 
+                            placeholder="Ingrese Su Usuario" value="{{ user[0][2] }}"> 
+                    {%  endif  %} 
+                    Correo: {{ user[0][0] }}
+                </div>
+                <br>
+                <h2>Datos representante legal</h2>
+                <div class="">
+                    Nombre y apellido : {{ user[0][3] }} {{ user[0][4] }} <br>
+                    Teléfono: 
+                    {%  if user[0][8] == " " %}
+                            <input type="telefono" name='telefono1' class="form-control" id="telefono" aria-describedby="emailHelp" 
+                            placeholder="Ingrese Su Telefono" value=""> 
+                    {%  else  %}
+                            <input type="telefono" name='telefono1' class="form-control" id="telefono" aria-describedby="emailHelp" 
+                            placeholder="Ingrese Su Telefono" value="{{ user[0][8] }}"> 
+                    {%  endif  %}
+                    Teléfono alternativo: 
+                    {%  if user[0][10] == " " %}
+                            <input type="telefono2" name='telefono2' class="form-control" id="telefono" aria-describedby="emailHelp" 
+                            placeholder="Ingrese Su Telefono" value=""> 
+                    {%  else  %}
+                            <input type="telefono2" name='telefono2' class="form-control" id="telefono" aria-describedby="emailHelp" 
+                            placeholder="Ingrese Su Telefono" value="{{ user[0][10] }}"> 
+                    {%  endif  %}
+                </div>
+                <br>
+                <h2>Datos empresa</h2>
+                <div class="">
+                    Nombre empresa : 
+                    {% if user[0][5] == " " %}
+                        <input type="nombreempresa" name='nombreempresa' class="form-control" id="nombreEmpresa" aria-describedby="emailHelp" 
+                        placeholder="Ingrese nombre de la empresa" value="">
+                    {% else %}
+                        <input type="nombreempresa" name='nombreempresa' class="form-control" id="nombreEmpresa" aria-describedby="emailHelp" 
+                        placeholder="Ingrese nombre de la empresa" value="{{ user[0][5] }}">
+                    {% endif %}
+                    RUT: 
+                    {%  if user[0][7] == " " %}
+                        <input type="rutempresa" name='rutempresa' class="form-control" id="rutempresa" aria-describedby="emailHelp" 
+                        placeholder="Ingrese Su Rut de Empresa" value=""> 
+                    {%  else  %}
+                        <input type="rutempresa" name='rutempresa' class="form-control" id="rutempresa" aria-describedby="emailHelp" 
+                        placeholder="Ingrese Su Rut de Empresa" value="{{ user[0][7] }}"> 
+                    {%  endif  %} 
+                    Razón social: 
+                    {% if user[0][6] == " "%}
+                        <input type="razonsocial" name='razonsocial' class="form-control" id="razonSocial" aria-describedby="emailHelp" 
+                        placeholder="Ingrese razón social" value="">
+                    {% else %}
+                        <input type="razonsocial" name='razonsocial' class="form-control" id="razonSocial" aria-describedby="emailHelp" 
+                        placeholder="Ingrese razón social" value="{{user[0][6]}}">
+                    {%  endif  %}
+                </div>
+                <br>
+                <h2>Dirección</h2>
+                <div class="">
+                    Dirección: 
+                    {%  if user[0][11] == " " %}
+                            <input type="direccion" name='direccion' class="form-control" id="domicilio" aria-describedby="emailHelp" 
+                            placeholder="Ingrese Su Dirección" value=""> 
+                    {%  else  %}
+                            <input type="direccion" name='direccion' class="form-control" id="domicilio" aria-describedby="emailHelp" 
+                            placeholder="Ingrese Su Dirección" value="{{ user[0][11] }}"> 
+                    {%  endif  %}
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <br><br>
+            </form>
+        </div>
+    </div>
+</div>
+    <!-- /#wrapper -->
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Menu Toggle Script -->
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+
+{% endblock %}
