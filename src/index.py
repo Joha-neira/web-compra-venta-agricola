@@ -126,6 +126,9 @@ def perfilUsuario():
                     else:   
                         user= []
                         return render_template('/inicio-sesion.html')
+                else:
+                    user= []
+                    return render_template('/inicio-sesion.html')
     if request.method == 'GET':
         if len(user)==0:
             return render_template('/inicio-sesion.html')
@@ -140,8 +143,10 @@ def perfilUsuario():
 def productos():
     conn=getConn()
     crs= conn.cursor()
-    sql = "SELECT * FROM producto"
-    crs.execute(sql)
+    global user
+    correo = user[0][0]
+    sql = "SELECT * FROM producto where correoproductor = :correo"
+    crs.execute(sql,[correo])
     data = crs.fetchall()
     return render_template('/productos.html', productos = data)
 
@@ -186,20 +191,22 @@ def addProducto():
         cantidad = request.form['cantidad']
         precio = request.form['precio']
         categoria = request.form['categoria']
+        global user
+        correo = user[0][0]
         conn=getConn()
         crs = conn.cursor()
-        sql = """INSERT INTO producto (idProducto,nombreProducto,cantidad,precio,categoria)
-                VALUES (:idProducto,:nombreProducto,:cantidad,:precio,:categoria)"""
-        crs.execute(sql,[idProducto,nombreProducto,cantidad,precio,str(categoria)])
+        sql = """INSERT INTO producto (idProducto,nombreProducto,cantidad,precio,categoria,correoproductor)
+                VALUES (:idProducto,:nombreProducto,:cantidad,:precio,:categoria, :correoproductor)"""
+        crs.execute(sql,[idProducto,nombreProducto,cantidad,precio,str(categoria),correo])
         conn.commit()
         conn.close()
         flash('Producto agregado satisfactoriamente')
     return redirect(url_for('productos'))
 
-#ruta para eliminar producto
-@app.route('/eliminar-producto/<string:id>')
-def eliminarProducto(id):
-    return
+# #ruta para eliminar producto
+# @app.route('/eliminar-producto/<string:id>')
+# def eliminarProducto(id):
+#     return
 
 #ruta de favoritos
 @app.route('/favoritos')
@@ -233,24 +240,47 @@ def agregarCarrito(id,cant):
     # sql = """select * from producto where idproducto = :id"""
     # crs.execute(sql,[id])
     # data = crs.fetchall()
-    cantidad = cant
-    idproducto = id
-    correo = user[0][0]
-    print(cantidad, idproducto, correo)
-    conn=getConn()
-    crs = conn.cursor()
-    sql = """INSERT INTO carrito (cantidad, idproducto, correo)
-            VALUES (:cantidad,:idproducto,:correo)"""
-    crs.execute(sql,[cantidad,idproducto,correo])
-    conn.commit()
-    sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad) from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
-    crs.execute(sql,[correo])
-    data = crs.fetchall()
-    totalCarrito=0
-    for producto in data:
-        totalCarrito += producto[3]
-    conn.close()
-    return render_template('carrito.html',productos = data, totalCarrito = totalCarrito)
+    global user
+    if len(user)>0:
+        cantidad = cant
+        idproducto = id
+        correo = user[0][0]
+        print(cantidad, idproducto, correo)
+        conn=getConn()
+        crs = conn.cursor()
+        sql = """INSERT INTO carrito (cantidad, idproducto, correo)
+                VALUES (:cantidad,:idproducto,:correo)"""
+        crs.execute(sql,[cantidad,idproducto,correo])
+        conn.commit()
+        sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad) from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
+        crs.execute(sql,[correo])
+        data = crs.fetchall()
+        totalCarrito=0
+        for producto in data:
+            totalCarrito += producto[3]
+        conn.close()
+        return render_template('carrito.html',productos = data, totalCarrito = totalCarrito)
+    else:
+        return render_template('/inicio-sesion.html')
+
+@app.route('/agregar-productor', methods=['POST'])
+def addProductor():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        apellidos  = request.form['apellidos']
+        nombreEmpresa = request.form['nombreEmpresa']
+        razonSocial = request.form['razonSocial']
+        direccion = request.form['direccion']
+        email  = request.form['email']
+        contrasena = request.form['contrasena']
+        conn=getConn()
+        crs = conn.cursor()
+        sql = """INSERT INTO productor (correo,pass,nombre,apellido,nombreempresa,razonsocial,direccion)
+                VALUES (:correo,:password,:nombre,:apellido,:nombreempresa,:razonsocial,:direccion)"""
+        crs.execute(sql,[email,contrasena,nombre,apellidos,nombreEmpresa,razonSocial,direccion])
+        conn.commit()
+        conn.close()
+    return render_template('/inicio-sesion.html')
 
 #ruta de contactos
 @app.route('/contactos')
