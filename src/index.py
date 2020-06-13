@@ -213,5 +213,7 @@ def contactos():
 def valoraciones():
     return render_template('valoraciones.html')
 
+
+
 if __name__ == "__main__":
     app.run(debug=True)
