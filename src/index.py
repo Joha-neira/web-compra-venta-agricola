@@ -1,10 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory
 from conexionbd import getConn, cx_Oracle
+import os
+from base64 import b64encode
+
 app = Flask(__name__)
 
 
-#inicializar sesión
+#APP_CONFIG
 app.secret_key = 'mysecretkey'
+UPLOAD_IMAGE_FOLDER = os.path.abspath("./static/images/uploads")
+app.config["UPLOAD_IMAGE_FOLDER"] = UPLOAD_IMAGE_FOLDER
 
 #inicializar user
 global user
@@ -148,7 +153,9 @@ def productos():
     sql = "SELECT * FROM producto where correoproductor = :correo"
     crs.execute(sql,[correo])
     data = crs.fetchall()
-    return render_template('/productos.html', productos = data)
+    usuario = correo.replace(".","").replace("@","")
+    # imagenes = send_from_directory(app.config["UPLOAD_IMAGE_FOLDER"],filename)
+    return render_template('/productos.html', productos = data,usuario = usuario)
 
 #ruta del registro de cliente
 @app.route('/registro-cliente')
@@ -186,13 +193,17 @@ def ingresoProductos():
 @app.route('/agregar-producto',methods=['POST'])
 def addProducto():
     if request.method == 'POST':
+        global user
+        correo = user[0][0]
         idProducto = request.form['idProducto']
         nombreProducto  = request.form['nombreProducto']
         cantidad = request.form['cantidad']
         precio = request.form['precio']
         categoria = request.form['categoria']
-        global user
-        correo = user[0][0]
+        f = request.files['imagen']
+        filename = idProducto+correo.replace(".","").replace("@","")
+        #check
+        f.save(os.path.join(app.config["UPLOAD_IMAGE_FOLDER"],filename))
         conn=getConn()
         crs = conn.cursor()
         sql = """INSERT INTO producto (idProducto,nombreProducto,cantidad,precio,categoria,correoproductor)
@@ -202,6 +213,7 @@ def addProducto():
         conn.close()
         flash('Producto agregado satisfactoriamente')
     return redirect(url_for('productos'))
+
 
 # #ruta para eliminar producto
 # @app.route('/eliminar-producto/<string:id>')

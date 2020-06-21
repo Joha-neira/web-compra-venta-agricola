@@ -19,6 +19,7 @@
             <th scope="col">Cantidad</th>
             <th scope="col">Precio</th>
             <th scope="col">Categoría</th>
+            <th scope="col">Imagen</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
@@ -30,6 +31,7 @@
                 <td>{{producto.2}}</td>
                 <td>{{producto.3}}</td>
                 <td>{{producto.4}}</td>
+                <td><img src="./static/images/uploads/{{producto.0}}{{usuario}}" style="width: 100px; height: 80px;"/></td>
                 <td> 
                     <a class="btn btn-primary" href="/editar-producto/editar/{{producto.0}}">Editar</a>
                     <a class="btn btn-danger" href="/eliminar-producto/{{producto.0}}">Eliminar</a>
