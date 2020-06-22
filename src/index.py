@@ -23,6 +23,7 @@ def home():
     sql = "SELECT * FROM producto"
     crs.execute(sql)
     data = crs.fetchall()
+    print(data)
     return render_template('/index.html', productos = data)
 
 #ruta inicio de sesion
@@ -76,6 +77,7 @@ def perfilProductorEditado():
     if request.method == 'POST':
         username=request.form['username']
         nombreempresa=request.form['nombreempresa']
+        categoriaempresa = request.form['categoriaempresa']
         rutempresa=request.form['rutempresa']
         razonsocial=request.form['razonsocial']
         telefono1=request.form['telefono1']
@@ -85,10 +87,10 @@ def perfilProductorEditado():
         correo=user[0][0]
         conn=getConn()
         crs = conn.cursor()
-        sql = """update productor set username=:username, nombreempresa=:nombreempresa, rutempresa=:rutempresa, razonsocial=:razonsocial, telefono1=:telefono1, telefono2=:telefono2, direccion=:direccion where correo=:correo"""
-        crs.execute(sql,[username,nombreempresa,rutempresa,razonsocial,telefono1,telefono2,direccion,correo])
+        sql = """update productor set username=:username, nombreempresa=:nombreempresa, rutempresa=:rutempresa, razonsocial=:razonsocial, telefono1=:telefono1, telefono2=:telefono2, direccion=:direccion, categoria=:categoria where correo=:correo"""
+        crs.execute(sql,[username,nombreempresa,rutempresa,razonsocial,telefono1,telefono2,direccion,categoriaempresa,correo])
         conn.commit()
-        sql = """select correo, pass, nvl(username,' '), nombre, apellido, nombreempresa, razonsocial, nvl(rutempresa,' '), nvl(telefono1,' '), tipologin, nvl(telefono2,' '), nvl(direccion,' ') from productor where correo=:correo"""
+        sql = """select correo, pass, nvl(username,' '), nombre, apellido, nombreempresa, razonsocial, nvl(rutempresa,' '), nvl(telefono1,' '), tipologin, nvl(telefono2,' '), nvl(direccion,' '), nvl(categoria,' ') from productor where correo=:correo"""
         crs.execute(sql,[correo])
         user=crs.fetchall()
         return render_template('/perfil-productor.html', user=user)
@@ -247,11 +249,6 @@ def carrito():
 #ruta agregar al carrito
 @app.route('/agregar-carrito/<id>/<cant>')   
 def agregarCarrito(id,cant):
-    # conn=getConn()
-    # crs= conn.cursor()
-    # sql = """select * from producto where idproducto = :id"""
-    # crs.execute(sql,[id])
-    # data = crs.fetchall()
     global user
     if len(user)>0:
         cantidad = cant
@@ -304,6 +301,18 @@ def contactos():
 def valoraciones():
     return render_template('valoraciones.html')
 
+#ruta de productores disponibles
+@app.route('/productores-disponibles')
+def productoresDisponibles():
+    conn = getConn()
+    crs = conn.cursor()
+    sql = """ SELECT * FROM productor 
+            where estado = 1
+        """
+    crs.execute(sql)
+    data = crs.fetchall()
+    print(data)
+    return render_template('productores-disponibles.html', productores = data)
 
 
 if __name__ == "__main__":

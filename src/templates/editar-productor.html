@@ -70,6 +70,14 @@
                         <input type="razonsocial" name='razonsocial' class="form-control" id="razonSocial" aria-describedby="emailHelp" 
                         placeholder="Ingrese razón social" value="{{user[0][6]}}">
                     {%  endif  %}
+                    Categoría de ventas : 
+                    {% if user[0][12] == " "%}
+                        <input type="categoriaempresa" name='categoriaempresa' class="form-control" id="categoriaEmpresa" aria-describedby="emailHelp" 
+                        placeholder="Ingrese categoría de ventas perteneciente a la empresa" value="">
+                    {% else %}
+                        <input type="categoriaempresa" name='categoriaempresa' class="form-control" id="categoriaEmpresa" aria-describedby="emailHelp" 
+                        placeholder="Ingrese categoría de ventas perteneciente a la empresa" value="{{user[0][12]}}">
+                    {%  endif  %}
                 </div>
                 <br>
                 <h2>Dirección</h2>

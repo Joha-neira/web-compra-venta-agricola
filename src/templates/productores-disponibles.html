@@ -1,0 +1,35 @@
+{% extends "base-usuario.html" %}
+{% set c = True %}
+{% block content %}
+<div class="container">
+    <h1>Listado de productores disponibles en tu zona</h1><br>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Nombre Empresa</th>
+            <th scope="col">Razón Social</th>
+            <th scope="col">Categoría</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Teléfono de contacto</th>
+            <th scope="col">Contacto</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for productor in productores %}
+            <tr>
+                <th scope="row">{{productor.5}}</th>
+                <td>{{productor.6}}</td>
+                <td>{{productor.13}}</td>
+                <td>{{productor.10}}</td>
+                <td>{{productor.8}}</td>
+                <td> 
+                    <a class="btn btn-success" href="">Contactar</a>
+                </td>
+              </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+      <br>
+</div>
+
+{% endblock %}
