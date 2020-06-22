@@ -295,7 +295,7 @@ def valoraciones():
 
 #ruta de vista-producto
 @app.route('/vista-producto', methods=['POST'])
-def vistaproducto(): 
+def vistaProducto(): 
     if request.method=='POST':
         nombrebusqueda=request.form['busqueda']
         conn=getConn()
@@ -303,8 +303,38 @@ def vistaproducto():
         sql = """select * from producto where lower(nombreproducto) like lower('%'||:nombre||'%')"""
         crs.execute(sql,[nombrebusqueda])
         data=crs.fetchall()
-    return render_template('/vista-producto.html',productos=data)   
+    return render_template('/vista-producto.html',productos=data)  
 
+
+@app.route('/editar-producto/<idproducto>', methods=['GET','POST'])
+def editarProducto(idproducto):
+    conn=getConn()
+    crs = conn.cursor()
+    sql = """select idproducto, nombreproducto, cantidad, precio, categoria from producto where idproducto=:idproducto"""
+    crs.execute(sql,[idproducto])
+    producto=crs.fetchall()
+    return render_template('editar-producto.html',producto=producto)
+    
+@app.route('/producto-editado', methods=['GET','POST'])
+def productoEditado():
+    if request.method == 'POST':
+        idproducto=request.form['idproducto']
+        nombreproducto=request.form['nombreproducto']
+        cantidad=request.form['cantidad']
+        precio=request.form['precio']
+        categoria=request.form['categoria']
+        conn=getConn()
+        crs = conn.cursor()
+        sql = """update producto set nombreproducto=:nombreproducto, cantidad=:cantidad, precio=:precio, categoria=:categoria where idproducto=:idproducto"""
+        crs.execute(sql,[nombreproducto,cantidad,precio,categoria,idproducto])
+        conn.commit()
+        sql = """select idproducto, nombreproducto, cantidad, precio, categoria from producto """
+        crs.execute(sql,[])
+        productos=crs.fetchall()
+        return render_template('/productos.html', productos=productos)
+    if request.method == 'GET':
+        return render_template('/perfil-productor.html')
+     
 
 if __name__ == "__main__":
     app.run(debug=True)
