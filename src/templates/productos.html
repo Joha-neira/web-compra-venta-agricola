@@ -41,7 +41,7 @@
         <td>{{producto.4}}</td>
         <td><img src="./static/images/uploads/{{producto.0}}{{usuario}}" style="width: 100px; height: 80px;" /></td>
         <td>
-          <a class="btn btn-primary" href="/editar-producto/editar/{{producto.0}}">Editar</a>
+          <a class="btn btn-primary" href="/editar-producto/{{producto.0}}">Editar</a>
           <a class="btn btn-danger" href="/eliminar-producto/{{producto.0}}">Eliminar</a>
         </td>
       </tr>
@@ -52,4 +52,10 @@
 
 {% endblock %}
 {% block scripts %}
+<script>
+  $("#menu-toggle").click(function (e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+  });
+</script>
 {% endblock %}

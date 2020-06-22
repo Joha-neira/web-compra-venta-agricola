@@ -274,7 +274,7 @@ def agregarCarrito(id,cant):
     else:
         flash('Para agregar al carrito debe iniciar sesión como cliente')
         return redirect(url_for('iniciosesion'))
-
+  #estay aki ctm
 @app.route('/agregar-productor', methods=['POST'])
 def addProductor():
     if request.method == 'POST':
@@ -329,6 +329,37 @@ def vistaproducto():
         data=crs.fetchall()
     return render_template('/vista-producto.html',productos=data)   
 
+@app.route('/editar-producto/<idproducto>', methods=['GET','POST'])
+def editarProducto(idproducto):
+    conn=getConn()
+    crs = conn.cursor()
+    sql = """select idproducto, nombreproducto, cantidad, precio, categoria from producto where idproducto=:idproducto"""
+    crs.execute(sql,[idproducto])
+    producto=crs.fetchall()
+    return render_template('editar-producto.html',producto=producto)
+
+@app.route('/producto-editado', methods=['GET','POST'])
+def productoEditado():
+    if request.method == 'POST':
+        idproducto=request.form['idproducto']
+        nombreproducto=request.form['nombreproducto']
+        cantidad=request.form['cantidad']
+        precio=request.form['precio']
+        categoria=request.form['categoria']
+        global user
+        correo = user[0][0]
+        conn=getConn()
+        crs = conn.cursor()
+        sql = """update producto set nombreproducto=:nombreproducto, cantidad=:cantidad, precio=:precio, categoria=:categoria where idproducto=:idproducto"""
+        crs.execute(sql,[nombreproducto,cantidad,precio,categoria,idproducto])
+        conn.commit()
+        sql = """select idproducto, nombreproducto, cantidad, precio, categoria, correoproductor from producto """
+        crs.execute(sql,[])
+        productos=crs.fetchall()
+        usuario = correo.replace(".","").replace("@","")
+        return render_template('/productos.html', productos=productos, usuario = usuario)
+    if request.method == 'GET':
+        return render_template('/perfil-productor.html')    
 
 if __name__ == "__main__":
     app.run(debug=True)

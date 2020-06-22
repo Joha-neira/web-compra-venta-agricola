@@ -1,0 +1,60 @@
+{% extends "base-usuario.html" %}
+
+{% block content %}
+<div class="d-flex" id="wrapper">
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <div class="container-fluid">
+            <form action="/producto-editado" method="POST">
+                <h1 class="mt-4">Editar Producto</h1>
+                <br><br>
+                <div class="">
+                    ID Producto: 
+                    <input type="idproducto" name='idproducto' class="form-control" id="idproducto" aria-describedby="emailHelp" 
+                    placeholder="Ingrese ID De Producto" value="{{ producto[0][0] }}" readonly> 
+                    Nombre Producto:
+                    {%  if producto[0][1] == " " %} 
+                            <input type="nombreproducto" name='nombreproducto' class="form-control" id="nombreproducto" aria-describedby="emailHelp" 
+                            placeholder="Ingrese Nombre De Producto" value=""> 
+                     {%  else  %}
+                             <input type="nombreproducto" name='nombreproducto' class="form-control" id="idproducto" aria-describedby="emailHelp" 
+                             placeholder="Ingrese Nombre De Producto" value="{{ producto[0][1] }}"> 
+                     {%  endif  %} 
+                     Cantidad:
+                    {%  if producto[0][2] == " " %} 
+                            <input type="cantidad" name='cantidad' class="form-control" id="nombreproducto" aria-describedby="emailHelp" 
+                            placeholder="Ingrese cantidad" value=""> 
+                     {%  else  %}
+                             <input type="cantidad" name='cantidad' class="form-control" id="cantidad" aria-describedby="emailHelp" 
+                             placeholder="Ingrese cantidad" value="{{ producto[0][2] }}"> 
+                     {%  endif  %} 
+                     Precio:
+                     {%  if producto[0][3] == " " %} 
+                             <input type="precio" name='precio' class="form-control" id="precio" aria-describedby="emailHelp" 
+                             placeholder="Ingrese Precio" value=""> 
+                      {%  else  %}
+                              <input type="precio" name='precio' class="form-control" id="precio" aria-describedby="emailHelp" 
+                              placeholder="Ingrese Precio" value="{{ producto[0][3] }}"> 
+                      {%  endif  %} 
+                      Categoria:
+                      {%  if producto[0][3] == " " %} 
+                              <input type="categoria" name='categoria' class="form-control" id="categoria" aria-describedby="emailHelp" 
+                              placeholder="Ingrese categoria" value=""> 
+                       {%  else  %}
+                               <input type="categoria" name='categoria' class="form-control" id="categoria" aria-describedby="emailHelp" 
+                               placeholder="Ingrese categoria" value="{{ producto[0][4] }}"> 
+                       {%  endif  %} 
+                </div>
+                <br>
+
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <br><br>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 
+{% block scripts %}
+{% endblock %}
