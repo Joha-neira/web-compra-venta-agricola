@@ -251,7 +251,8 @@ def carrito():
 @app.route('/agregar-carrito/<id>/<cant>')   
 def agregarCarrito(id,cant):
     global user
-    if len(user)>0:
+    #actual
+    if len(user)>0 and user[0][9]=="c":
         cantidad = cant
         idproducto = id
         correo = user[0][0]
@@ -271,7 +272,8 @@ def agregarCarrito(id,cant):
         conn.close()
         return render_template('carrito.html',productos = data, totalCarrito = totalCarrito)
     else:
-        return render_template('/inicio-sesion.html')
+        flash('Para agregar al carrito debe iniciar sesión como cliente')
+        return redirect(url_for('iniciosesion'))
 
 @app.route('/agregar-productor', methods=['POST'])
 def addProductor():
@@ -314,6 +316,18 @@ def productoresDisponibles():
     data = crs.fetchall()
     print(data)
     return render_template('productores-disponibles.html', productores = data)
+
+#ruta de vista-producto
+@app.route('/vista-producto', methods=['POST'])
+def vistaproducto(): 
+    if request.method=='POST':
+        nombrebusqueda=request.form['busqueda']
+        conn=getConn()
+        crs = conn.cursor()
+        sql = """select * from producto where lower(nombreproducto) like lower('%'||:nombre||'%')"""
+        crs.execute(sql,[nombrebusqueda])
+        data=crs.fetchall()
+    return render_template('/vista-producto.html',productos=data)   
 
 
 if __name__ == "__main__":

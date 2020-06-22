@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    {% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compra Venta agrícola</title>
@@ -10,7 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../static/css/simple-sidebar.css">
-    
+    {% endblock %}
 </head>
 
 <body>
@@ -21,7 +22,24 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/">Tienda <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Acerca</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Contacto</a>
+                </li>
+              </ul>
             <ul class="navbar-nav ml-auto">
+                <form class="form-inline" action="/vista-producto" method="POST">
+                    <input name='busqueda' class="form-control mr-sm-2" type="search" placeholder="Buscar"
+                        aria-label="Search">
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit"
+                        >Buscar</button>
+                </form>
                 <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -39,7 +57,7 @@
             </ul>
         </div>
     </nav>
-    {% block content %}
+    {% block navbar %}
     {% endblock %}
     <!-- JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
