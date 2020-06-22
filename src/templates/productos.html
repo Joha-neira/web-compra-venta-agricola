@@ -5,43 +5,49 @@
 {% with messages = get_flashed_messages() %}
 {% if messages %}
 {% for message in messages %}
-<p>{{message}}</p>
+<div class="container">
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
 {% endfor %}
 {% endif %}
 {% endwith %}
 <div class="container">
-    <h1>Mi listado de productos</h1><br>
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Categoría</th>
-            <th scope="col">Imagen</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for producto in productos %}
-            <tr>
-                <th scope="row">{{producto.0}}</th>
-                <td>{{producto.1}}</td>
-                <td>{{producto.2}}</td>
-                <td>{{producto.3}}</td>
-                <td>{{producto.4}}</td>
-                <td><img src="./static/images/uploads/{{producto.0}}{{usuario}}" style="width: 100px; height: 80px;"/></td>
-                <td> 
-                    <a class="btn btn-primary" href="/editar-producto/editar/{{producto.0}}">Editar</a>
-                    <a class="btn btn-danger" href="/eliminar-producto/{{producto.0}}">Eliminar</a>
-                </td>
-              </tr>
-            {% endfor %}
-        </tbody>
-      </table>
-      <br>
-    <a class="btn btn-success" href="/ingreso-productos" role="button">+ Agregar productos</a>
+  <a class="btn btn-success" href="/ingreso-productos" role="button">+ Agregar productos</a> <br><br>
+  <h1>Mi listado de productos</h1><br>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Categoría</th>
+        <th scope="col">Imagen</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for producto in productos %}
+      <tr>
+        <th scope="row">{{producto.0}}</th>
+        <td>{{producto.1}}</td>
+        <td>{{producto.2}}</td>
+        <td>{{producto.3}}</td>
+        <td>{{producto.4}}</td>
+        <td><img src="./static/images/uploads/{{producto.0}}{{usuario}}" style="width: 100px; height: 80px;" /></td>
+        <td>
+          <a class="btn btn-primary" href="/editar-producto/editar/{{producto.0}}">Editar</a>
+          <a class="btn btn-danger" href="/eliminar-producto/{{producto.0}}">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 {% endblock %}

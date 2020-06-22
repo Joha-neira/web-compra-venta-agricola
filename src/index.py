@@ -93,6 +93,7 @@ def perfilProductorEditado():
         sql = """select correo, pass, nvl(username,' '), nombre, apellido, nombreempresa, razonsocial, nvl(rutempresa,' '), nvl(telefono1,' '), tipologin, nvl(telefono2,' '), nvl(direccion,' '), nvl(categoria,' ') from productor where correo=:correo"""
         crs.execute(sql,[correo])
         user=crs.fetchall()
+        print(user[0][12])
         return render_template('/perfil-productor.html', user=user)
     if request.method == 'GET':
         if len(user)==0:
@@ -124,7 +125,7 @@ def perfilUsuario():
                     user= []
                     return render_template('/inicio-sesion.html')
             else:
-                sql = """select correo, pass, nvl(username,' '), nombre, apellido, nombreempresa, razonsocial, nvl(rutempresa,' '), nvl(telefono1,' '), tipologin, nvl(telefono2,' '), nvl(direccion,' ') from productor where correo=:correo"""
+                sql = """select correo, pass, nvl(username,' '), nombre, apellido, nombreempresa, razonsocial, nvl(rutempresa,' '), nvl(telefono1,' '), tipologin, nvl(telefono2,' '), nvl(direccion,' '), nvl(categoria,' ') from productor where correo=:correo"""
                 crs.execute(sql,[correo])
                 user=crs.fetchall()
                 if len(user)>0:
