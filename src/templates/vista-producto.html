@@ -1,0 +1,25 @@
+{% extends "base-usuario.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Busqueda Reciente</h1>
+    <br><br>
+    <br>
+    <div class="">
+        {% for producto in productos %}
+        <hr>
+        ID Producto:  <b>{{producto.0}}</b> <br>
+        Nombre Producto:   <b>{{producto.1}}</b><br>
+        Cantidad:  <b>{{producto.2}}</b><br>
+        Precio:  <b>{{producto.3}}</b><br>
+        Categoria:  <b>{{producto.4}}</b><br><br> 
+                <a class="btn btn-success" href="/agregar-carrito/{{producto.0}}/{{producto.2}}">+ Agregar al carrito</a>
+        <hr>    
+        {% endfor %}
+    </div>
+    
+</div>
+
+      
+{% endblock %}

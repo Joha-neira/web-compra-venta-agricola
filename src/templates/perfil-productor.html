@@ -9,13 +9,19 @@
         <div class="container-fluid">
             <form action="/perfil-usuario" method="POST">
                 <h1 class="mt-4">Mis datos</h1>
-                <br><br>
-                <h2>Datos de cuenta</h2>
+                <br><hr><br>
+                <h2>Datos de cuenta </h2><br>
+                <h5>Disponible  &nbsp;&nbsp;&nbsp;<!-- Rounded switch -->
+                    <label class="switch">
+                     <input type="checkbox">
+                    <span class="slider round"></span>
+                    </label>
+                </h5>
                 <div class=""> 
                     Usuario: {{ user[0][2] }}<br>
                     Correo: {{ user[0][0] }}
                 </div>
-                <br><br>
+                <br><hr><br>
                 <h2>Datos representante legal</h2>
                 <div class="">
                     Nombre y apellido : {{ user[0][3] }} {{ user[0][4] }}<br>
@@ -28,7 +34,7 @@
                     Teléfono: {{ user[0][8] }}<br>
                     Teléfono alternativo: {{ user[0][10] }}<br>
                 </div>
-                <br><br>
+                <br><hr><br>
                 <h2>Domicilio</h2>
                 <div class="">
                     Domicilio:  {{ user[0][11] }}<br>

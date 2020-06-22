@@ -293,6 +293,18 @@ def valoraciones():
     return render_template('valoraciones.html')
 
 
+#ruta de vista-producto
+@app.route('/vista-producto', methods=['POST'])
+def vistaproducto(): 
+    if request.method=='POST':
+        nombrebusqueda=request.form['busqueda']
+        conn=getConn()
+        crs = conn.cursor()
+        sql = """select * from producto where lower(nombreproducto) like lower('%'||:nombre||'%')"""
+        crs.execute(sql,[nombrebusqueda])
+        data=crs.fetchall()
+    return render_template('/vista-producto.html',productos=data)   
+
 
 if __name__ == "__main__":
     app.run(debug=True)
