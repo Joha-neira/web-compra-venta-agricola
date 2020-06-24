@@ -153,7 +153,7 @@ def productos():
     crs= conn.cursor()
     global user
     correo = user[0][0]
-    sql = "SELECT * FROM producto where correoproductor = :correo"
+    sql = "SELECT * FROM producto where correoproductor = :correo and eliminado=0"
     crs.execute(sql,[correo])
     data = crs.fetchall()
     usuario = correo.replace(".","").replace("@","")
@@ -353,13 +353,33 @@ def productoEditado():
         sql = """update producto set nombreproducto=:nombreproducto, cantidad=:cantidad, precio=:precio, categoria=:categoria where idproducto=:idproducto"""
         crs.execute(sql,[nombreproducto,cantidad,precio,categoria,idproducto])
         conn.commit()
-        sql = """select idproducto, nombreproducto, cantidad, precio, categoria, correoproductor from producto """
-        crs.execute(sql,[])
+        sql = """select idproducto, nombreproducto, cantidad, precio, categoria, correoproductor from producto where correoproductor = :correo and eliminado=0"""
+        crs.execute(sql,[correo])
         productos=crs.fetchall()
         usuario = correo.replace(".","").replace("@","")
         return render_template('/productos.html', productos=productos, usuario = usuario)
     if request.method == 'GET':
-        return render_template('/perfil-productor.html')    
+        return render_template('/perfil-productor.html')        
+
+@app.route('/eliminar-producto/<idproducto>', methods=['GET','POST'])
+def productoEliminado(idproducto):
+    idproducto=idproducto
+    global user
+    if len(user)==0:
+        return render_template('/inicio-sesion.html')
+    else:
+        correo = user[0][0]
+        conn=getConn()
+        crs = conn.cursor()
+        sql = """update producto set eliminado=1 where idproducto=:idproducto"""
+        crs.execute(sql,[idproducto])
+        conn.commit()
+        sql = """SELECT * FROM producto where correoproductor = :correo and eliminado=0"""
+        crs.execute(sql,[correo])
+        productos=crs.fetchall()
+        usuario = correo.replace(".","").replace("@","")
+        flash('Producto eliminado satisfactoriamente')
+        return render_template('/productos.html', productos=productos, usuario = usuario)
 
 if __name__ == "__main__":
     app.run(debug=True)
