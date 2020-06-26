@@ -20,7 +20,7 @@ user = []
 def home():
     conn=getConn()
     crs= conn.cursor()
-    sql = "SELECT * FROM producto"
+    sql = "SELECT * FROM producto where eliminado = 0"
     crs.execute(sql)
     data = crs.fetchall()
     print(data)
@@ -375,7 +375,7 @@ def productoEliminado(idproducto):
         productos=crs.fetchall()
         usuario = correo.replace(".","").replace("@","")
         flash('Producto eliminado satisfactoriamente')
-        return render_template('/productos.html', productos=productos, usuario = usuario)
+        return redirect(url_for('productos'))
 
 
 if __name__ == "__main__":
