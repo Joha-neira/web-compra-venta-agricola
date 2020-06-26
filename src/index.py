@@ -125,7 +125,7 @@ def perfilUsuario():
                     user= []
                     return render_template('/inicio-sesion.html')
             else:
-                sql = """select correo, pass, nvl(username,' '), nombre, apellido, nombreempresa, razonsocial, nvl(rutempresa,' '), nvl(telefono1,' '), tipologin, nvl(telefono2,' '), nvl(direccion,' '), nvl(categoria,' ') from productor where correo=:correo"""
+                sql = """select correo, pass, nvl(username,' '), nombre, apellido, nombreempresa, razonsocial, nvl(rutempresa,' '), nvl(telefono1,' '), tipologin, nvl(telefono2,' '), nvl(direccion,' '), nvl(categoria,' '), estado from productor where correo=:correo"""
                 crs.execute(sql,[correo])
                 user=crs.fetchall()
                 if len(user)>0:
@@ -217,12 +217,6 @@ def addProducto():
         flash('Producto agregado satisfactoriamente')
     return redirect(url_for('productos'))
 
-
-# #ruta para eliminar producto
-# @app.route('/eliminar-producto/<string:id>')
-# def eliminarProducto(id):
-#     return
-
 #ruta de favoritos
 @app.route('/favoritos')
 def favoritos():
@@ -238,7 +232,7 @@ def compras():
 def carrito():
     conn=getConn()
     crs = conn.cursor()
-    sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad) from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
+    sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad), p.idproducto, p.correoproductor from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
     crs.execute(sql,[user[0][0]])
     data = crs.fetchall()
     totalCarrito=0
@@ -263,18 +257,18 @@ def agregarCarrito(id,cant):
                 VALUES (:cantidad,:idproducto,:correo)"""
         crs.execute(sql,[cantidad,idproducto,correo])
         conn.commit()
-        sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad) from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
+        sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad),p.idproducto, p.correoproductor from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
         crs.execute(sql,[correo])
         data = crs.fetchall()
         totalCarrito=0
         for producto in data:
             totalCarrito += producto[3]
         conn.close()
-        return render_template('carrito.html',productos = data, totalCarrito = totalCarrito)
+        return redirect(url_for('carrito'))
     else:
         flash('Para agregar al carrito debe iniciar sesión como cliente')
         return redirect(url_for('iniciosesion'))
-  #estay aki ctm
+
 @app.route('/agregar-productor', methods=['POST'])
 def addProductor():
     if request.method == 'POST':
@@ -359,7 +353,8 @@ def productoEditado():
         usuario = correo.replace(".","").replace("@","")
         return render_template('/productos.html', productos=productos, usuario = usuario)
     if request.method == 'GET':
-        return render_template('/perfil-productor.html')        
+        return render_template('/perfil-productor.html')    
+
 
 @app.route('/eliminar-producto/<idproducto>', methods=['GET','POST'])
 def productoEliminado(idproducto):
@@ -380,6 +375,24 @@ def productoEliminado(idproducto):
         usuario = correo.replace(".","").replace("@","")
         flash('Producto eliminado satisfactoriamente')
         return render_template('/productos.html', productos=productos, usuario = usuario)
+
+@app.route('/actualizarEstado', methods=['GET','POST'])
+def actualizarEstado():
+    global user
+    correo = user[0][0]
+    if user[0][13] == 1:
+        estado=0
+    else:
+        estado=1
+    conn=getConn()
+    crs = conn.cursor()
+    sql = """update productor set estado=:estado where correo=:correo"""
+    crs.execute(sql,[estado,user[0][0]])
+    conn.commit()
+    sql = """select correo, pass, nvl(username,' '), nombre, apellido, nombreempresa, razonsocial, nvl(rutempresa,' '), nvl(telefono1,' '), tipologin, nvl(telefono2,' '), nvl(direccion,' '), nvl(categoria,' '), estado from productor where correo=:correo"""
+    crs.execute(sql,[correo])
+    user=crs.fetchall()
+    return redirect(url_for('perfilUsuario'))
 
 if __name__ == "__main__":
     app.run(debug=True)
