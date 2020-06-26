@@ -3,27 +3,34 @@
 {% block content %}
 
 <div class="container-fluid">
-    <h1 class="mt-4">Su Carrito</h1>
-    <br><br>
-    <h2>Sus Pedidos</h2>
-    
-    <div class=""> 
-        {% for producto in productos %}
-        Producto:  <b>{{producto.0}}</b> <br>
-        Cantidad:   <b>{{producto.1}}</b><br>
-        Categoria:  <b>{{producto.2}}</b><br>
-        Total A Pagar:  <b>{{producto.3}}</b><br><br>
-        {% endfor %}
-        <b>Total a cancelar: ${{totalCarrito}}</b>
+    <div class="container">
+        <h1 class="mt-4">Su Carrito</h1>
         <br><br>
-        <label for="codigo descuento">Codigo De Descuento:</label>
-        <input type="text" class="form-control col-md-3" id="codigo" aria-describedby="emailHelp"
-        placeholder="Ingrese Su Codigo De Descuento"> <br>
-        <button type="submit" class="btn btn-primary">Aplicar Descuento</button>
-        <br><br><br>
-        
-        <button type="submit" class="btn btn-success">Finalizar La Compra</button> &nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="submit" class="btn btn-danger">Cancelar Pedido</button>
+        <h2>Sus Productos</h2><br>
+    </div>
+    <div class="">
+        {% for producto in productos %}
+        <div class="container">
+            Producto: <b>{{producto.0}}</b> <br>
+            Cantidad: <b>{{producto.1}}</b><br>
+            Categoria: <b>{{producto.2}}</b><br>
+            Total A Pagar: <b>{{producto.3}}</b><br>
+            <img src="./static/images/uploads/{{producto.4}}{{producto.5|replace(".", "")|replace("@", "")}}" style="width: 100px; height: 80px;" />
+            <hr>
+        </div>
+        {% endfor %}
+        <div class="container">
+            <b>Total a cancelar: ${{totalCarrito}}</b>
+            <br><br>
+            <label for="codigo descuento">Codigo De Descuento:</label>
+            <input type="text" class="form-control col-md-3" id="codigo" aria-describedby="emailHelp"
+                placeholder="Ingrese Su Codigo De Descuento"> <br>
+            <button type="submit" class="btn btn-primary">Aplicar Descuento</button>
+            <br><br><br>
+
+            <button type="submit" class="btn btn-success">Finalizar La Compra</button> &nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" class="btn btn-danger">Cancelar Pedido</button>
+        </div>
     </div>
 
 
