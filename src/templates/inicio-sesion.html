@@ -1,7 +1,23 @@
 {% extends "base.html" %}
 
 {% block navbar %}
-
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+{% if message == 'Para agregar al carrito debe iniciar sesión como cliente' %}
+<div class="container">
+    <br>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endwith %}
 
 <div class="container p-4">
     <form action="/perfil-usuario" method="POST">

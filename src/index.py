@@ -377,6 +377,22 @@ def productoEliminado(idproducto):
         flash('Producto eliminado satisfactoriamente')
         return redirect(url_for('productos'))
 
+@app.route('/quitar-producto-carrito/<idproducto>')
+def quitarProductoCarrito(idproducto):
+    idproducto=idproducto
+    global user
+    if len(user)==0:
+        return render_template('/inicio-sesion.html')
+    else:
+        correo = user[0][0]
+        conn=getConn()
+        crs = conn.cursor()
+        sql = """delete from carrito where correo = :correo
+         and idproducto = :idproducto"""
+        crs.execute(sql,[correo, idproducto])
+        conn.commit()
+        print("elimina3")
+        return redirect(url_for('carrito'))
 
 if __name__ == "__main__":
     app.run(debug=True)

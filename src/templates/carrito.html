@@ -16,6 +16,7 @@
             Categoria: <b>{{producto.2}}</b><br>
             Total A Pagar: <b>{{producto.3}}</b><br>
             <img src="./static/images/uploads/{{producto.4}}{{producto.5|replace(".", "")|replace("@", "")}}" style="width: 100px; height: 80px;" />
+            <a  class="btn btn-danger btn-sm" href="/quitar-producto-carrito/{{producto.4}}">Quitar del carrito</a>
             <hr>
         </div>
         {% endfor %}
