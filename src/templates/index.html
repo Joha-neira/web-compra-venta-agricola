@@ -27,14 +27,13 @@
             {% for producto in productos %}
             <tr>
                 <th scope="row">{{producto.1}}</th>
-                <td>{{producto.2}}</td>
+                
+                <td><input min="1" max="{{producto.2}}" style="width: 80px;" type="number" class="form-control col" id="cantidadProducto{{producto.0}}" value="1"></td></td>
                 <td>{{producto.3}}</td>
                 <td>{{producto.4}}</td>
                 <td><img src="./static/images/uploads/{{producto.0}}{{producto.5|replace(".", "")|replace("@", "")}}" style="width: 100px; height: 80px;"/></td>
                 <td>
-                <td> 
-                    <a class="btn btn-success" href="/agregar-carrito/{{producto.0}}/{{producto.2}}">+ Agregar al carrito</a>
-                </td>
+                  <td><a class="btn btn-success" href = "javascript:;" onclick = "this.href='agregar-carrito/{{producto.0}}/' + document.getElementById('cantidadProducto{{producto.0}}').value">+ Agregar al carrito</a></td>
               </tr>
             {% endfor %}
         </tbody>

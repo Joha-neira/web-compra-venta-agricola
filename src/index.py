@@ -238,7 +238,7 @@ def compras():
 def carrito():
     conn=getConn()
     crs = conn.cursor()
-    sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad) from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
+    sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad), p.idproducto, p.correoproductor from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
     crs.execute(sql,[user[0][0]])
     data = crs.fetchall()
     totalCarrito=0
@@ -263,14 +263,16 @@ def agregarCarrito(id,cant):
                 VALUES (:cantidad,:idproducto,:correo)"""
         crs.execute(sql,[cantidad,idproducto,correo])
         conn.commit()
-        sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad) from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
+        sql = """select p.nombreproducto, c.cantidad, p.categoria, (p.precio*c.cantidad),p.idproducto, p.correoproductor from carrito c join producto p on (p.idproducto = c.idproducto) where correo = :correo"""
         crs.execute(sql,[correo])
         data = crs.fetchall()
+        print(data)
+        print(correo)
         totalCarrito=0
         for producto in data:
             totalCarrito += producto[3]
         conn.close()
-        return render_template('carrito.html',productos = data, totalCarrito = totalCarrito)
+        return redirect(url_for('carrito'))
     else:
         flash('Para agregar al carrito debe iniciar sesión como cliente')
         return redirect(url_for('iniciosesion'))
