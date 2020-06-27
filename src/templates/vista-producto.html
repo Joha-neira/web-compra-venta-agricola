@@ -1,23 +1,25 @@
-{% extends "base-usuario.html" %}
+{% extends "base.html" %}
 
-{% block content %}
+{% block navbar %}
 
 <div class="container-fluid">
     <h1 class="mt-4">Busqueda Reciente</h1>
     <br><br>
     <br>
     <div class="">
+        {% if productos|count==0 %}
+            <h5>No existen resultados para la busqueda</h5>
+        {% else %}
         {% for producto in productos %}
         <hr>
         <div class="row">
             <div class="col-md-6">
                 ID Producto: <b>{{producto.0}}</b> <br>
                 Nombre Producto: <b>{{producto.1}}</b><br>
-                Cantidad: <b>{{producto.2}}</b><br>
+                <input min="1" max="{{producto.2}}" style="width: 80px;" type="number" class="form-control col" id="cantidadProducto{{producto.0}}" value="1">
                 Precio: <b>{{producto.3}}</b><br>
                 Categoria: <b>{{producto.4}}</b><br><br>
-                <a class="btn btn-success" href="/agregar-carrito/{{producto.0}}/{{producto.2}}">+ Agregar al
-                    carrito</a>
+                <a class="btn btn-success" href = "javascript:;" onclick = "this.href='agregar-carrito/{{producto.0}}/' + document.getElementById('cantidadProducto{{producto.0}}').value">+ Agregar al carrito</a>
             </div>
             <div class="col-md-3">
                 <img src="./static/images/uploads/{{producto.0}}{{producto.5|replace(".", "")|replace("@", "")}}" style="width: 200px; height: 160px;"/>
@@ -25,6 +27,7 @@
         </div>
         <hr>
         {% endfor %}
+        {% endif %}
     </div>
 
 </div>

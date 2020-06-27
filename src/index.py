@@ -180,7 +180,7 @@ def addCliente():
         crs.execute(sql,[email,contrasena,nombre,apellidos])
         conn.commit()
         conn.close()
-    return 'received'
+    return redirect(url_for('iniciosesion'))
 
 #ruta del registro de productor
 @app.route('/registro-productor')
