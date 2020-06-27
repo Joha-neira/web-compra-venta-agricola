@@ -125,7 +125,7 @@ def perfilUsuario():
                     user= []
                     return render_template('/inicio-sesion.html')
             else:
-                sql = """select correo, pass, nvl(username,' '), nombre, apellido, nombreempresa, razonsocial, nvl(rutempresa,' '), nvl(telefono1,' '), tipologin, nvl(telefono2,' '), nvl(direccion,' '), nvl(categoria,' ') from productor where correo=:correo"""
+                sql = """select correo, pass, nvl(username,' '), nombre, apellido, nombreempresa, razonsocial, nvl(rutempresa,' '), nvl(telefono1,' '), tipologin, nvl(telefono2,' '), nvl(direccion,' '), nvl(categoria,' '), estado from productor where correo=:correo"""
                 crs.execute(sql,[correo])
                 user=crs.fetchall()
                 if len(user)>0:
@@ -391,8 +391,26 @@ def quitarProductoCarrito(idproducto):
          and idproducto = :idproducto"""
         crs.execute(sql,[correo, idproducto])
         conn.commit()
-        print("elimina3")
         return redirect(url_for('carrito'))
+
+@app.route('/actualizarEstado', methods=['GET','POST'])
+def actualizarEstado():
+    global user
+    correo = user[0][0]
+    if user[0][13] == 1:
+        estado=0
+    else:
+        estado=1
+    conn=getConn()
+    crs = conn.cursor()
+    sql = """update productor set estado=:estado where correo=:correo"""
+    crs.execute(sql,[estado,user[0][0]])
+    conn.commit()
+    sql = """select correo, pass, nvl(username,' '), nombre, apellido, nombreempresa, razonsocial, nvl(rutempresa,' '), nvl(telefono1,' '), tipologin, nvl(telefono2,' '), nvl(direccion,' '), nvl(categoria,' '), estado from productor where correo=:correo"""
+    crs.execute(sql,[correo])
+    user=crs.fetchall()
+    return redirect(url_for('perfilUsuario'))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
